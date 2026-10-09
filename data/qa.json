@@ -1,0 +1,65 @@
+{
+  "joinedModelCount": 65,
+  "modelJoinExact": true,
+  "rppaFeatures": 247,
+  "rnaGeneRows": 19154,
+  "markerModelSlots": 520,
+  "completeMarkerPairs": 518,
+  "missingRna": [
+    {
+      "model": "JG2",
+      "gene": "SOX2",
+      "sourceValue": "#NAME?"
+    },
+    {
+      "model": "JG14",
+      "gene": "CLDN7",
+      "sourceValue": "#NAME?"
+    }
+  ],
+  "growthRows": 748,
+  "finiteGrowthRows": 746,
+  "growthModels": 17,
+  "growthMissing": [
+    {
+      "sourceRow": 96,
+      "pdxNumber": "HN12-6744",
+      "day": 15,
+      "treatment": "Vehicle"
+    },
+    {
+      "sourceRow": 97,
+      "pdxNumber": "HN12-6744",
+      "day": 20,
+      "treatment": "Vehicle"
+    }
+  ],
+  "publishedExperimentalResponseCounts": {
+    "S": 12,
+    "not evaluated": 48,
+    "R": 5
+  },
+  "clinicalHpvCounts": {
+    "Negative": 50,
+    "Positive": 15
+  },
+  "sourceFinalFlagDays": [
+    13,
+    15,
+    20,
+    22,
+    26
+  ],
+  "sourceFinalDayFlagAgreement": true,
+  "finalLabelMismatchesAtHalfRatio": [],
+  "endpointThresholdCrossingModelsAtHalfRatio": [],
+  "defaultCav1QueueAt30": [
+    "JG11",
+    "JG16",
+    "JG48",
+    "JG35",
+    "JG29",
+    "JG49"
+  ],
+  "note": "Counts refer to source records or model-level pairs, not independently identified animals."
+}

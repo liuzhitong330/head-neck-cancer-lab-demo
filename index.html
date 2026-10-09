@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A reproducible RNA–protein discrepancy and cetuximab endpoint review using public head and neck cancer PDX data, prepared by Cathy Liu.">
+  <title>Exploratory Analyses Inspired by the Head and Neck Cancer Research Laboratory</title>
+  <link rel="stylesheet" href="styles.css?v=20261009">
+</head>
+<body>
+  <main class="page">
+    <h1>Exploratory Analyses Inspired by the Head and Neck Cancer Research Laboratory</h1>
+    <div class="byline">
+      Cathy Liu · Biotechnology &amp; computational biology · <a href="mailto:cathyliu014@gmail.com">cathyliu014@gmail.com</a><br>
+      Prepared for the Grandis / Ha / Johnson laboratory, UCSF<br>
+      Personal exploratory project, October 2026
+    </div>
+
+    <nav class="section-nav" aria-label="Demo sections">
+      <a href="#motivation">Motivation</a>
+      <a href="#a1">RNA &amp; protein</a>
+      <a href="#a2">Response review</a>
+      <a href="#relevance">Relevance</a>
+    </nav>
+
+    <p>In patient-derived head and neck tumors, an RNA marker is not always a substitute for measuring its protein. The laboratory’s cetuximab study makes that distinction particularly interesting: caveolin-1 and Sox-2 were more informative together at the protein level. Which individual models deserve a second assay before an RNA-defined state guides the next experiment?</p>
+    <p>I built an RNA–protein discrepancy explorer that turns the study’s paired measurements into a model-level confirmation queue. A second analysis reviews the observed treatment records, keeping the published response labels separate from an adjustable endpoint comparison.</p>
+
+    <hr id="motivation">
+    <section aria-labelledby="how-heading">
+      <h2 id="how-heading">How it works</h2>
+      <p>The <a href="https://insight.jci.org/articles/view/151982">2021 JCI Insight study</a> provides paired RNA and RPPA protein profiles for 65 patient-derived xenograft (PDX) models. This processed-data reanalysis joins eight published markers by model ID, then compares each model’s position within the RNA and protein distributions. A large difference is a reason to check an assay, not evidence of a mechanism.</p>
+      <p>Percentile ranks use the full available cohort and stay fixed when you filter. Only 17 models have experimentally evaluated cetuximab response; the other 48 remain explicitly unmeasured here. No response prediction is made for them.</p>
+    </section>
+
+    <hr id="a1">
+    <section aria-labelledby="analysis-one-heading">
+      <h2 id="analysis-one-heading">Analysis 1 — Where RNA and protein disagree</h2>
+      <div class="experiment">
+        <div class="exp-label">Paired-assay review</div>
+        <div class="exp-title">Choose the models worth confirming</div>
+        <p>Each dot is one model. The solid diagonal means equal RNA and protein percentile rank; dashed guides mark the selected review threshold. A rank gap is descriptive, not a biological or statistical cutoff.</p>
+      </div>
+
+      <div class="panel">
+        <div class="controls">
+          <label>Marker<select id="marker-select"></select></label>
+          <label>Clinical HPV status<select id="hpv-select"><option value="all">All models</option><option value="Negative">Negative</option><option value="Positive">Positive</option></select></label>
+          <label>Experimental response data<select id="tested-select"><option value="all">All models</option><option value="tested">Evaluated only</option><option value="untested">Not evaluated only</option></select></label>
+          <label>Review gap (percentile points)<select id="gap-select"><option value="20">20</option><option value="30" selected>30</option><option value="40">40</option><option value="50">50</option></select></label>
+        </div>
+        <svg id="hero-viz" class="viz" viewBox="0 0 600 390" role="group" aria-label="RNA versus protein percentile ranks; use the model selector for a keyboard-accessible alternative"></svg>
+        <div id="scatter-tooltip" class="chart-note" aria-live="off">Select a dot, a queue entry, or a model below.</div>
+        <label class="model-control">Inspect model<select id="model-select"></select></label>
+        <div class="readout" id="readout" aria-live="polite">Loading the public measurements…</div>
+        <p class="chart-note" id="coverage-note"></p>
+        <figcaption>Teal dots meet the chosen gap; the outlined dot is selected. Source-unit values are shown below the plot because RNA and RPPA scales are not directly interchangeable. Missing RNA is never plotted at zero or imputed.</figcaption>
+
+        <h3>Confirmation queue</h3>
+        <p class="chart-note" id="queue-summary"></p>
+        <ol class="queue" id="confirmation-queue"></ol>
+        <button type="button" class="export-button" id="download-assays">Download all filtered assay rows (CSV)</button>
+        <div class="value-note">
+          <p><strong>What this lets the lab do:</strong> choose a reproducible model/marker shortlist for orthogonal confirmation, and see how the shortlist changes with HPV, data coverage, or the review threshold.</p>
+          <p><strong>Where Cathy adds value:</strong> connect transcriptomic prioritization to a named assay follow-up, while retaining missing values, source IDs, units, and the selection rule.</p>
+        </div>
+      </div>
+
+      <div class="metric-row">
+        <div class="metric"><span class="metric-val" id="metric-one">—</span><span class="metric-desc">paired models in view</span></div>
+        <div class="metric"><span class="metric-val" id="metric-two">—</span><span class="metric-desc">models meeting review gap</span></div>
+        <div class="metric"><span class="metric-val" id="metric-three">—</span><span class="metric-desc" id="metric-three-label">selected rank gap (points)</span></div>
+      </div>
+      <div class="experiment">
+        <div class="exp-label">Proposed next assay — not a tested result</div>
+        <div class="exp-title" id="next-assay-title">From discrepancy to a discriminating check</div>
+        <p id="next-assay"></p>
+      </div>
+    </section>
+
+    <hr id="a2">
+    <section aria-labelledby="analysis-two-heading">
+      <h2 id="analysis-two-heading">Analysis 2 — Read the response at an actual observed day</h2>
+      <div class="experiment">
+        <div class="exp-label">Treatment-record review</div>
+        <div class="exp-title">Keep endpoint choice separate from a published label</div>
+        <p>The ratio is mean normalized cetuximab growth divided by mean normalized vehicle growth (T/C), calculated at the same observed day. Change the endpoint or cutoff to review a descriptive decision; this is neither a refitted classifier nor independent validation.</p>
+      </div>
+      <div class="panel">
+        <div class="controls">
+          <label>Endpoint<select id="endpoint-select"><option value="final">Source-designated final day</option><option value="day14">Last shared observed day ≤ 14</option></select></label>
+          <label>Descriptive T/C cutoff<select id="cutoff-select"><option value="0.4">0.4</option><option value="0.5" selected>0.5</option><option value="0.6">0.6</option></select></label>
+        </div>
+        <div class="chips"><span>Try:</span><button type="button" id="sensitivity-example">JG30 at a 0.6 cutoff</button></div>
+        <svg id="response-viz" class="viz" viewBox="0 0 600 550" role="group" aria-label="Treatment-to-control growth ratios for experimentally evaluated PDX models"></svg>
+        <div id="response-tooltip" class="chart-note" aria-live="off">Each row is a model; labels give its actual endpoint day and published response.</div>
+        <label class="model-control">Inspect evaluated model<select id="response-model-select"></select></label>
+        <div class="readout" id="response-readout" aria-live="polite"></div>
+        <p class="chart-note" id="endpoint-summary"></p>
+        <button type="button" class="export-button" id="download-endpoints">Download all 17 endpoint rows (CSV)</button>
+        <figcaption>Published labels: S = sensitive; R = resistant. These labels do not change with the controls. “n” counts finite source rows at that day, not independently identified animals. No interpolation, animal trajectories, confidence intervals, or significance tests are inferred.</figcaption>
+        <div class="value-note">
+          <p><strong>What this lets the lab do:</strong> check the day, control mean, available records, and threshold behind a response comparison before planning a time-aligned follow-up.</p>
+          <p><strong>Where Cathy adds value:</strong> reconcile molecular prioritization with experimental records and make an endpoint decision reproducible without claiming a new drug-response predictor.</p>
+        </div>
+      </div>
+      <p class="methods-note">The source marks JG11’s final day as 13, although the article describes a 15–26-day range. This view preserves the workbook’s actual day and exposes the discrepancy. A “day ≤ 14” selection is not a measurement exactly on day 14.</p>
+    </section>
+
+    <hr id="relevance">
+    <section aria-labelledby="relevance-heading">
+      <h2 id="relevance-heading">Why this matters for the lab</h2>
+      <p>Moving from an expression pattern to a useful experiment requires deciding what to remeasure, in which material, and against which control. This small analysis adds an inspectable confirmation queue and an endpoint review to the published study. Individual discordant models are an inferred follow-up opportunity, not a claim about the lab’s current internal bottleneck.</p>
+      <p>For a new cohort, the same analysis could accept an RNA matrix, a protein matrix, unique model IDs, and clinical annotations. Treatment records would additionally need model, treatment, day, and normalized growth fields. Sample identity, assay specificity, missingness, and batch effects must be checked first; ranks must be recomputed within the new reference cohort, not transferred as calibrated cutoffs.</p>
+
+      <h2>What I would bring</h2>
+      <p>My PDAC transcriptomic work involved identifying differential signals and prioritizing biological targets. Together with my tumor-model and assay-validation experience, that is the connection I would bring here: careful analysis that produces a concrete, controlled follow-up rather than an unexplained list of genes. The analysis and experiment planning are relevant to the Junior Specialist role’s mix of biological data analysis, assays, and research records.</p>
+      <p class="methods-note">The implementation was developed with AI-assisted coding and independently checked against the source tables. The proposed assays remain untested and would need the lab’s protocols and validation.</p>
+
+      <h2>Methods note</h2>
+      <p class="methods-note">Source: Bouhaddou et al., <a href="https://insight.jci.org/articles/view/151982">“Caveolin-1 and Sox-2 are predictive biomarkers of cetuximab response in head and neck cancer”</a>, JCI Insight (2021), doi:10.1172/jci.insight.151982. Supplemental Tables 2–5 supply model metadata, median-centered RPPA, growth records, and processed RNA values. Article and source data are credited to the authors under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>.</p>
+      <p class="methods-note">Rank = 100 × (average rank − 1) / (finite assay count − 1). Absolute RNA–protein rank gaps compare within-assay ordering, not concentration or fold-change differences. SOX2/JG2 and CLDN7/JG14 contain source spreadsheet errors; those RNA values remain missing. Matching model IDs does not establish matched aliquots, identical passage, or biological replication. Bulk composition, measurement specificity, and sample handling remain possible explanations.</p>
+      <p class="methods-note">The eight markers were selected in the source study, so these same data cannot independently validate them. This page does not refit the published SVM, report predictive accuracy, establish causality, or recommend human treatment. Growth records lack animal IDs; uncertainty cannot be turned into animal-level confidence intervals. Two nonfinite growth records are retained as missing in the audit.</p>
+      <p class="methods-note">Reproduce and inspect: <a href="https://github.com/liuzhitong330/head-neck-cancer-lab-demo">public code and README</a> · <a href="data/provenance.json">source provenance</a> · <a href="qa_report.json">independent source checks</a> · <a href="data/paired-assays.csv">all paired assays</a> · <a href="data/endpoint-audit.csv">endpoint audit</a>. No relevant verified target-owned implementation for this 2021 dataset was found; this analysis uses the paper’s public workbooks directly.</p>
+    </section>
+
+    <footer>
+      Cathy Liu · <a href="mailto:cathyliu014@gmail.com">cathyliu014@gmail.com</a> · <a href="tel:+14152163799">415-216-3799</a><br>
+      Personal exploratory analysis · Not a clinical decision tool
+    </footer>
+  </main>
+
+  <script src="data.js?v=20261009"></script>
+  <script src="app.js?v=20261009"></script>
+</body>
+</html>

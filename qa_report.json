@@ -1,0 +1,70 @@
+{
+  "study": "Bouhaddou et al., JCI Insight 2021;6(20):e151982",
+  "scope": "Independent source-to-output consistency, not predictive validation",
+  "testedAnalysisSha256": "25efe43f0efa5d7d72cdd2e9cce5725cd0aafc5b9716beca409173a87fa27beb",
+  "sourceHashes": {
+    "jci.insight.151982.sdt2.xlsx": "262735c0348e89b5efbf0de9b99687583ce6f93d0aa8634f65d0391b09e58ce5",
+    "jci.insight.151982.sdt3.xlsx": "83065e9c35e3d67a4c6ee207ae8ecf578490db8a79498b91817ac9ca0322d154",
+    "jci.insight.151982.sdt4.xlsx": "4672a2e5f0665e103bd22a65028ef47abb539423cc79b275d3dd153b1546a2ec",
+    "jci.insight.151982.sdt5.xlsx": "ed1652d15dcc9b394920802f78d12b909becc7912e34f2692f1bebd7b481fe9f"
+  },
+  "counts": {
+    "models": 65,
+    "rppaFeatures": 247,
+    "rnaGenes": 19154,
+    "growthRows": 748,
+    "finiteGrowthRows": 746,
+    "testedModels": 17,
+    "experimentalLabels": {
+      "S": 12,
+      "not evaluated": 48,
+      "R": 5
+    },
+    "predictedLabels": {
+      "Sensitive": 40,
+      "Resistant": 25
+    },
+    "clinicalHPV": {
+      "Negative": 50,
+      "Positive": 15
+    }
+  },
+  "selectedMissingRNA": [
+    {
+      "gene": "SOX2",
+      "model": "JG2",
+      "sourceValue": "#NAME?",
+      "cell": "C14478"
+    },
+    {
+      "gene": "CLDN7",
+      "model": "JG14",
+      "sourceValue": "#NAME?",
+      "cell": "O14542"
+    }
+  ],
+  "allEndpointLabelsAgree": true,
+  "markerQueueCountsAt30pp": {
+    "CAV1": 6,
+    "SOX2": 7,
+    "AXL": 1,
+    "TMEM173": 17,
+    "BRD4": 19,
+    "CLDN7": 9,
+    "GJA1": 7,
+    "FN1": 14
+  },
+  "publicComparison": {
+    "checkedFields": 4574,
+    "differences": [],
+    "passed": true
+  },
+  "exportComparison": {
+    "dataJsMatchesJson": true,
+    "assayCsvRows": 520,
+    "endpointCsvRows": 34,
+    "originalGrowthCsvRows": 748,
+    "passed": true
+  },
+  "passed": true
+}

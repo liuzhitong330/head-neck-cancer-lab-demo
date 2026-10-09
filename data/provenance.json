@@ -1,0 +1,55 @@
+{
+  "study": "Bouhaddou et al., JCI Insight 2021;6(20):e151982",
+  "doi": "10.1172/jci.insight.151982",
+  "sources": [
+    {
+      "table": 2,
+      "file": "jci.insight.151982.sdt2.xlsx",
+      "url": "https://df6sxcketz7bb.cloudfront.net/manuscripts/151000/151982/jci.insight.151982.sdt2.xlsx",
+      "sha256": "262735c0348e89b5efbf0de9b99687583ce6f93d0aa8634f65d0391b09e58ce5",
+      "bytes": 13416,
+      "description": "Model metadata and published experimental labels"
+    },
+    {
+      "table": 3,
+      "file": "jci.insight.151982.sdt3.xlsx",
+      "url": "https://df6sxcketz7bb.cloudfront.net/manuscripts/151000/151982/jci.insight.151982.sdt3.xlsx",
+      "sha256": "83065e9c35e3d67a4c6ee207ae8ecf578490db8a79498b91817ac9ca0322d154",
+      "bytes": 221696,
+      "description": "Median-centered RPPA and antibody mapping"
+    },
+    {
+      "table": 4,
+      "file": "jci.insight.151982.sdt4.xlsx",
+      "url": "https://df6sxcketz7bb.cloudfront.net/manuscripts/151000/151982/jci.insight.151982.sdt4.xlsx",
+      "sha256": "4672a2e5f0665e103bd22a65028ef47abb539423cc79b275d3dd153b1546a2ec",
+      "bytes": 31296,
+      "description": "Longitudinal normalized tumor-growth records"
+    },
+    {
+      "table": 5,
+      "file": "jci.insight.151982.sdt5.xlsx",
+      "url": "https://df6sxcketz7bb.cloudfront.net/manuscripts/151000/151982/jci.insight.151982.sdt5.xlsx",
+      "sha256": "ed1652d15dcc9b394920802f78d12b909becc7912e34f2692f1bebd7b481fe9f",
+      "bytes": 10145217,
+      "description": "Median-centered RNA expression"
+    }
+  ],
+  "codeVersion": "1.0.0",
+  "runtime": "Python >=3.10; verified with Python 3.12 and openpyxl 3.1.5",
+  "license": "Article and associated supplemental data CC BY 4.0; attribution required.",
+  "processing": [
+    "Exact model-ID join JGHL<number>\u2192JG<number>, verified 65/65 unique models.",
+    "Eight fixed paper marker mappings; no feature selection or fitting.",
+    "Average-tie percentile ranks across all finite cohort values before UI filtering.",
+    "Absolute RNA/RPPA percentile difference; null for the two source errors.",
+    "Treatment-specific means per observed day; exclude only two explicit NA records.",
+    "Final largest observed shared finite day; alternate largest shared day\u226414, no interpolation.",
+    "Retain source experimental labels; no animal-ID reconstruction or longitudinal individual analysis."
+  ],
+  "githubSearch": {
+    "date": "2026-10-09",
+    "finding": "No verified relevant source-code repository for the selected 2021 dataset found in article, official lab/PI sources, or GitHub repository searches.",
+    "excluded": "Grandis-coauthored Eckhardt-Zhang_HPV (2018) mutation/network code is a different study and is not used or claimed as executed here."
+  }
+}
